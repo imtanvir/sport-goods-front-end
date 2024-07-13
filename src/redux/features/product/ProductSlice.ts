@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 
 type TProduct = {
   name: null | string;
@@ -10,22 +11,18 @@ type TProduct = {
   rating: null | number;
 };
 
-type TInitialState = TProduct[];
-const initialState: TInitialState = [{
-  name: null,
-  description: null,
-  price: null,
-  stock_quantity: null,
-  category: null,
-  brand: null,
-  rating: null,
-}];
+type TInitialState = {
+  products: TProduct[];
+};
+const initialState: TInitialState = {
+  products: [],
+};
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProduct: (state, action) => {
-      state = [...state, action.payload];
+    setProduct: (state, action: PayloadAction<TProduct>) => {
+      state.products = [...state.products, action.payload];
     },
   },
 });
@@ -34,4 +31,4 @@ export const { setProduct } = productSlice.actions;
 
 export default productSlice.reducer;
 
-export const  = (state: RootState) => state.auth.user;
+export const products = (state: RootState) => state.products;
