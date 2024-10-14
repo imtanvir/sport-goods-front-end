@@ -1,12 +1,15 @@
 import { debounce } from "lodash";
-import { FieldValues, useForm } from "react-hook-Form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useSendFeedbackMutation } from "../../redux/api/baseApi";
 const Form = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<{
+    email: string;
+    message: string;
+  }>();
 
   const [sendFeedback] = useSendFeedbackMutation();
-  const onSubmit = async (data: FieldValues) => {
+  const onSubmit = async (data: { email: string; message: string }) => {
     const toastId = toast.loading("Logging In");
     try {
       const feedback = {
@@ -34,7 +37,14 @@ const Form = () => {
             If you had any issues or you liked our product, please share with
             us!
           </p>
-          <form onSubmit={handleSubmit(debounceOnSubmit)}>
+          <form
+            onSubmit={handleSubmit(
+              debounceOnSubmit as SubmitHandler<{
+                email: string;
+                message: string;
+              }>
+            )}
+          >
             <div className="mb-4">
               <label
                 htmlFor="email"

@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import AboutUs from "../pages/AboutUs";
-import Cart from "../pages/Cart";
-import CheckOut from "../pages/CheckOut";
+import AllProducts from "../pages/AllProducts";
+import CheckoutPage from "../pages/CheckoutPage";
 import Home from "../pages/Home";
-import ManageProducts from "../pages/ManageProducts";
-import Products from "../pages/Products";
+import OrderSuccess from "../pages/OrderSuccess";
+import ProductManagement from "../pages/ProductManagement";
 import SingleProduct from "../pages/SingleProduct";
+import BillingProceed from "./../pages/BillingProceed";
+import _404 from "./../pages/_404";
 
 const router = createBrowserRouter([
   {
@@ -18,28 +20,36 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/all-products",
-        element: <Products />,
+        path: "/checkout/",
+        element: <CheckoutPage />,
       },
       {
-        path: "/single-product",
+        path: "/all-products/:category",
+        element: <AllProducts />,
+      },
+      {
+        path: "/single-product/:id",
         element: <SingleProduct />,
       },
       {
         path: "/manage-products",
-        element: <ManageProducts />,
+        element: <ProductManagement />,
       },
       {
         path: "/about-us",
         element: <AboutUs />,
       },
       {
-        path: "/cart",
-        element: <Cart />,
+        path: "/billing",
+        element: <BillingProceed />,
       },
       {
-        path: "/checkout",
-        element: <CheckOut />,
+        path: "/place-success",
+        element: <OrderSuccess />,
+      },
+      {
+        path: "*",
+        element: <_404 />,
       },
     ],
   },

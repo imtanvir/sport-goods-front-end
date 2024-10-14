@@ -11,18 +11,31 @@ import {
 } from "../components/ui/dropdown-menu";
 import CartBadge from "./home/CartBadge";
 import CartPreview from "./home/CartPreview";
-
+import Logo from "/src/assets/logo.svg";
 const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
+  const navbarStyle: React.CSSProperties = {
+    overflow: "hidden",
+    position: "sticky",
+    top: 0,
+    width: "100%",
+    zIndex: 1000,
+    backgroundColor: "white",
+  };
   return (
     <>
-      <nav className="w-full shadow">
+      <nav
+        className="w-full shadow h-[10vh] flex items-center"
+        style={navbarStyle}
+      >
         <Card className="container bg-card py-3 px-4 border-0 flex items-center justify-between gap-6 shadow-none">
           <div className="text-primary cursor-pointer">
-            <img src="/src/assets/logo.svg" alt="logo" />
+            <Link to={"/"}>
+              <img src={Logo} alt="logo" />
+            </Link>
           </div>
 
           <ul className="hidden md:flex items-center gap-10 text-card-foreground">
@@ -30,10 +43,10 @@ const Navbar = () => {
               <Link to={"/"}>Home</Link>
             </li>
             <li>
-              <Link to={"#features"}>Manage Product</Link>
+              <Link to={"/manage-products"}>Manage Product</Link>
             </li>
             <li>
-              <Link to={"#pricing"}>All Product</Link>
+              <Link to={"/all-products/all"}>All Product</Link>
             </li>
             <li>
               <Link to={"/about-us"}>About Us</Link>
@@ -61,7 +74,7 @@ const Navbar = () => {
                     <Link to={"#home"}>Home</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link to={"#features"}>Manage Product</Link>
+                    <Link to={"#"}>Manage Product</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link to={"#pricing"}>All Product</Link>

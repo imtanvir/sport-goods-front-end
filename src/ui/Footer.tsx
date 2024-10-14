@@ -1,7 +1,7 @@
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-
+import Logo from "/src/assets/logo.svg";
 const Footer = () => {
   return (
     <footer className="bg-[#111111] py-8 md:py-12 text-[#F9FAFC]">
@@ -9,34 +9,40 @@ const Footer = () => {
         <div className="grid gap-4">
           <h4 className="text-lg font-semibold">Quick Links</h4>
           <nav className="grid gap-2">
-            <Link to={"#"} className="text-sm hover:underline">
-              Home
+            <Link to={"/about-us"} className="text-sm hover:underline">
+              About us
             </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              About
+            <Link to={"/all-products/all"} className="text-sm hover:underline">
+              All Products
             </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              Services
-            </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              Contact
+            <Link to={"/manage-products"} className="text-sm hover:underline">
+              Product Management
             </Link>
           </nav>
         </div>
         <div className="grid gap-4">
-          <h4 className="text-lg font-semibold">Category</h4>
+          <h4 className="text-lg font-semibold">Top Pick Category</h4>
           <nav className="grid gap-2">
-            <Link to={"#"} className="text-sm hover:underline">
-              Blog
+            <Link
+              to={"/all-products/cricket & football"}
+              className="text-sm hover:underline"
+            >
+              Cricket & Football
             </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              Documentation
+            <Link to={"/all-products/Ball"} className="text-sm hover:underline">
+              Ball
             </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              Tutorials
+            <Link
+              to={"/all-products/Apparel"}
+              className="text-sm hover:underline"
+            >
+              Apparel
             </Link>
-            <Link to={"#"} className="text-sm hover:underline">
-              FAQs
+            <Link
+              to={"/all-products/Bicycle"}
+              className="text-sm hover:underline"
+            >
+              Bicycle
             </Link>
           </nav>
         </div>
@@ -46,21 +52,37 @@ const Footer = () => {
             to={"/"}
             className="bg-[#F9FAFC] md:w-1/2 w-full inline-block p-2 rounded-md"
           >
-            <img src="/src/assets/logo.svg" alt="logo" />
+            <img src={Logo} alt="logo" />
           </Link>
           <div className="flex items-center gap-4">
-            <Link to={"#"} className="text-white ">
+            <a
+              target="_blank"
+              href="https://www.twitter.com"
+              className="text-white "
+            >
               <RiTwitterXLine />
-            </Link>
-            <Link to={"#"} className="text-white ">
+            </a>
+            <a
+              target="_blank"
+              href="https://www.instagram.com"
+              className="text-white "
+            >
               <FaInstagram />
-            </Link>
-            <Link to={"#"} className="text-white ">
+            </a>
+            <a
+              target="_blank"
+              href="https://www.facebook.com"
+              className="text-white "
+            >
               <FaFacebook />
-            </Link>
-            <Link to={"#"} className="text-white ">
+            </a>
+            <a
+              target="_blank"
+              href="https://www.linkedin.com"
+              className="text-white "
+            >
               <FaLinkedin />
-            </Link>
+            </a>
           </div>
         </div>
       </div>

@@ -1,86 +1,99 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../../components/ui/carousel";
+import { useGetProductsQuery } from "../../redux/api/baseApi";
+import { TProduct } from "../../utils/interface";
 
 const Category = () => {
+  const navigate = useNavigate();
+  const { data: products } = useGetProductsQuery(undefined);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [categoryImages, setCategoryImages] = useState<{
+    [key: string]: string;
+  }>({});
   const [selectCategory, setSelectCategory] = useState("");
-  console.log(selectCategory);
+
+  useEffect(() => {
+    if (products) {
+      const uniqueCategories = new Set<string>();
+      const categoryImageMap: { [key: string]: string } = {};
+
+      products.data.forEach((product: TProduct) => {
+        if (!uniqueCategories.has(product.category)) {
+          uniqueCategories.add(product.category);
+          categoryImageMap[product.category] = product.image?.[0]?.url || "";
+        }
+      });
+
+      setCategories(Array.from(uniqueCategories));
+      setCategoryImages(categoryImageMap);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    if (selectCategory) {
+      navigate(`/all-products/${selectCategory}`);
+    }
+  }, [selectCategory, navigate]);
+
   return (
     <div className="py-20 bg-slate-50">
       <div className="container">
-        <h1 className=" text-4xl leading-16">Category</h1>
-        <p className=" text-xl">Best category for you</p>
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols gap-3 py-5">
-          <Link
-            onClick={() => setSelectCategory("football")}
-            to={"/all-products#football"}
+        <h1 className="text-4xl leading-16">Category</h1>
+        <p className="text-xl mb-8">Best category for you</p>
+
+        {categories.length > 0 ? (
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
           >
-            <Card className="shadow-md duration-500 hover:scale-105 hover:shadow-xl">
-              <CardHeader className=" bg-[#EBEEF3] mb-5">
-                <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-[#262626] to-[#B8C2CE] uppercase">
-                  football
-                </h1>
-              </CardHeader>
-              <CardContent>
-                <img
-                  className=" rounded-md md:h-[290px] h-full w-full"
-                  src="/src/assets/category/football.png"
-                />
-              </CardContent>
-            </Card>
-          </Link>
-          <Link
-            onClick={() => setSelectCategory("basketball")}
-            to={"/all-products"}
-          >
-            <Card className="shadow-md duration-500 hover:scale-105 hover:shadow-xl">
-              <CardHeader>
-                <img
-                  className=" rounded-md md:h-[240px] h-full w-full"
-                  src="/src/assets/category/basketball.png"
-                />
-              </CardHeader>
-              <CardContent className=" bg-[#EBEEF3] mb-5">
-                <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-[#262626] to-[#B8C2CE] uppercase">
-                  basket ball
-                </h1>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link onClick={() => setSelectCategory("cycle")} to={"/all-products"}>
-            <Card className="shadow-md duration-500 hover:scale-105 hover:shadow-xl">
-              <CardHeader className=" bg-[#EBEEF3] mb-5">
-                <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-[#262626] to-[#B8C2CE] uppercase">
-                  sport cycle
-                </h1>
-              </CardHeader>
-              <CardContent>
-                <img
-                  className=" rounded-md md:h-[240px] h-full w-full"
-                  src="/src/assets/category/cycle.jpg"
-                />
-              </CardContent>
-            </Card>
-          </Link>
-          <Link
-            onClick={() => setSelectCategory("table tennis")}
-            to={"/all-products"}
-          >
-            <Card className="shadow-md duration-500 hover:scale-105 hover:shadow-xl">
-              <CardHeader>
-                <img
-                  className=" rounded-md md:h-[240px] h-full w-full"
-                  src="/src/assets/category/table_tennis.png"
-                />
-              </CardHeader>
-              <CardContent className=" bg-[#EBEEF3] mb-5">
-                <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-[#262626] to-[#B8C2CE] uppercase">
-                  table tennis
-                </h1>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
+            <CarouselContent>
+              {categories.map((category, index) => (
+                <CarouselItem
+                  key={index}
+                  className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                >
+                  <Link
+                    to={`/all-products/${category}`}
+                    onClick={() => setSelectCategory(category)}
+                  >
+                    <Card className="shadow-md duration-500 hover:scale-105 hover:shadow-xl h-full">
+                      <CardHeader className="bg-[#EBEEF3] mb-5">
+                        <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-[#262626] to-[#B8C2CE] uppercase">
+                          {category}
+                        </h2>
+                      </CardHeader>
+                      <CardContent className="flex justify-center items-center h-[200px]">
+                        <img
+                          className="rounded-md h-full object-cover"
+                          src={categoryImages[category] || ""}
+                          alt={category}
+                        />
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        ) : (
+          <p className="text-center text-2xl mt-10">
+            No products exist in this category.
+          </p>
+        )}
       </div>
     </div>
   );
